@@ -238,6 +238,48 @@ const resetpassword = async (req, res) => {
   }
 };
 
+const leaderboardHandler = async(req,res)=>{
+  try {
+      const users = await UserModel.find().sort({nor_of_wins:-1});
+      res.status(200).send(users);
+  } catch (error) {
+      console.log(error)
+      res.status(500).send(error.message)
+  }
+};
+
+const authHandler = async(req,res)=>{
+  try {
+     res.status(200).send({msg:"Logged in",status:200})
+  } catch (error) {
+     res.status(500).send({msg:error.message,status:500})
+  }
+}
+
+const updateUser = async(req, res)=>{
+  try{
+    const{email, nor_of_wins, nor_of_games} = req.body;
+    let useremail = await client.get(email);
+    if (!useremail) {
+      return res
+        .status(400)
+        .send({ msg: "Something went wrong" });
+    } else {
+
+      let justcheck = await UserModel.findOneAndUpdate(
+        { email: useremail },
+        { nor_of_games: toInt(nor_of_games) },
+        { nor_of_wins: toInt(nor_of_wins) },
+        // { new: true }
+      );
+      res.status(200).send({ msg: "Successfuly updated", justcheck });
+    }
+  } catch (error) {
+    res.status(500).send({ msg: error.message });
+  }
+}
+
+
 module.exports = {
   registerNewUser,
   loginUser,
@@ -247,6 +289,9 @@ module.exports = {
   getotp,
   verifyotp,
   resetpassword,
+  leaderboardHandler,
+  authHandler,
+  updateUser,
 };
 
 // Subject: Your OTP for Password Change

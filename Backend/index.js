@@ -9,8 +9,8 @@ const { dbConnection } = require("./config/db");
 const path = require("path")
 const passport = require("passport")
 const socketio = require('socket.io');
-const { lboardRouter } = require("./routes/leaderboard.route");
 const { userRouter } = require("./routes/user.route");
+const { lboardRouter } = require("./routes/leaderboard.route")
 
 
 

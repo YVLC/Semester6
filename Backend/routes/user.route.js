@@ -6,6 +6,7 @@ const {
   getotp,
   verifyotp,
   resetpassword,
+  updateUser,
 } = require("../controllers/user.controller");
 const { passport } = require("../config/google_oauth");
 const { UserModel } = require("../models/user.model");
@@ -13,7 +14,6 @@ const { auth } = require("../middlewares/auth");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-
 
 
 
@@ -28,6 +28,7 @@ userRouter.get("/refresh-token", NewAccessToken);
 userRouter.post("/getotp", getotp);
 userRouter.post("/verifyotp", verifyotp);
 userRouter.post("/resetpassword", resetpassword);
+userRouter.post("/updateuser", updateUser)
 
 userRouter.get(
   "/auth/google",
