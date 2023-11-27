@@ -162,10 +162,9 @@ body {
     font-weight: bolder;
   }
 
-  .loss {
+  .games {
     color: red;
     font-size: 18px;
-    font-weight: bolder;
   }
 
   .draw {

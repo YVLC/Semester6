@@ -10,7 +10,56 @@ CHESSAPP.GamePlay = (function(){
 that.pieces = []; 
 that.cells;
 that.moveList = [];
+let baseServerUrl = `http://localhost:4500`
 
+ async function updateUsers(email, boolean){
+   try {
+	 console.log(email);
+	 const req = await fetch(`${baseServerUrl}/leaderboard`);
+	 const usersPromise = req.json(); // This is a Promise
+     const users = await usersPromise;
+     console.log(users);
+	 const foundUser = users.find(user => user.email === email);
+	 if(boolean === true){
+		foundUser.nor_of_wins++;
+	 }
+	 if (foundUser !== undefined) {
+		// Update the number of games played for the found user
+		foundUser.nor_of_games++; // Assuming nor_of_games is the property to update
+ 
+		// Log the updated user
+		console.log('Updated User:', foundUser);
+
+		let payload = {
+			email: foundUser.email,
+			nor_of_games: foundUser.nor_of_games,
+			nor_of_wins: foundUser.nor_of_wins,
+		  };
+		  console.log(payload);
+		  const res = await fetch(`${baseServerUrl}/user/updateuser`, {
+			method: "POST",
+			headers: {
+			  "content-type": "application/json",
+			},
+			body: JSON.stringify(payload),
+		  })
+		  const responseData = await res.json();
+		  console.log(responseData);
+ 
+		// Perform any additional actions, such as updating the server with the new data
+		// ...
+ 
+	  } else {
+		console.log('User not found');
+	  }
+	 console.log(foundUser);
+   } catch (error) {
+     console.log(error)
+   }
+ }
+window.addEventListener("load",()=>{
+ updateUsers();
+})
 
 var _settings;//private variable which stores information about the player and state of the game
 
@@ -416,17 +465,20 @@ that.updateOptions = function(){
 		checkmate = check;
 	}
 
-
 	var local = (currentColor == _settings.onlineColor),
 	    msg = "",
 	    type = "fb";
 
 	if(checkmate){
 		if(local){
+			email = localStorage.getItem('chessmate-email');
+			updateUsers(email, false);
 			msg = "You are in checkmate. Your opponent wins";
 			type = "e";
 		}
 		else{
+			email = localStorage.getItem('chessmate-email');
+			updateUsers(email, true);
 			msg = "Your opponent is in checkmate. You win";
 			type = "s";
 		}
@@ -464,9 +516,6 @@ that.updateOptions = function(){
 			text: `${msg}`,
 			imageUrl: "../assets/winner.png"
 		  });
-		setTimeout(() => {
-			window.location.href="leaderboard.html"
-		}, 2500);
 	}
 	/*console.log("Status : ");
 	  console.log("Check : " + check);

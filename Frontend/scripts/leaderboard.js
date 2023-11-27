@@ -18,7 +18,7 @@ window.addEventListener("load",()=>{
 })
 
 
- function makeRow(i,name,wins,losses,draws,level,avatar){
+ function makeRow(i,name,wins,games,level,avatar){
    avatar = avatar || "../assets/avatar.jpeg"
    return `<tr>
          <td class="ranking">${i}</td>
@@ -32,8 +32,7 @@ window.addEventListener("load",()=>{
          </td>
 
          <td class="wins"><span class="win">${wins}</span></td>
-         <td class="losses"><span class="loss">${losses}</span></td>
-         <td class="draws"><span class="draw">${draws}</span></td>
+         <td class="losses"><span class="games">${games}</span></td>
          <td><span class="rank">${level}</span></td>
        </tr>`
  }
@@ -56,7 +55,7 @@ window.addEventListener("load",()=>{
        else if(user.nor_of_wins>50){
          level = "EXPERT/MASTER"
        }
-       return makeRow(i+1,user.full_name,user.nor_of_wins,user.nor_of_games,user.nor_of_wins,level,user.avatar)
+       return makeRow(i+1,user.full_name,user.nor_of_wins,user.nor_of_games,level,user.avatar)
       }).join(" ");
      
       tbody.innerHTML =mapped
