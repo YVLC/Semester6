@@ -256,28 +256,27 @@ const authHandler = async(req,res)=>{
   }
 }
 
-const updateUser = async(req, res)=>{
-  try{
-    const{email, nor_of_wins, nor_of_games} = req.body;
-    let useremail = await client.get(email);
-    if (!useremail) {
-      return res
-        .status(400)
-        .send({ msg: "Something went wrong" });
-    } else {
+const updateUser = async (req, res) => {
+  try {
+     const { email, nor_of_wins, nor_of_games } = req.body;
 
-      let justcheck = await UserModel.findOneAndUpdate(
-        { email: useremail },
-        { nor_of_games: toInt(nor_of_games) },
-        { nor_of_wins: toInt(nor_of_wins) },
-        // { new: true }
-      );
-      res.status(200).send({ msg: "Successfuly updated", justcheck });
-    }
+     let useremail = await UserModel.findOne({email:email});
+
+     if (!useremail) {
+        return res.status(400).send({ msg: "User not found" });
+     } else {
+        let justcheck = await UserModel.findOneAndUpdate(
+           { email: email }, // Corrected the query here
+           { nor_of_games: nor_of_games, nor_of_wins: nor_of_wins },
+           { new: true } // Use { new: true } to return the updated document
+        );
+
+        res.status(200).send({ msg: "Successfully updated", justcheck });
+     }
   } catch (error) {
-    res.status(500).send({ msg: error.message });
+     res.status(500).send({ msg: error.message });
   }
-}
+};
 
 
 module.exports = {
