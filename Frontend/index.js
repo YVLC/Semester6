@@ -1,0 +1,12 @@
+import './styles/register.css';
+import './styles/forgetpass.css';
+import './styles/index.css';
+import './styles/leaderboard.css';
+import './styles/lobby.css';
+import './styles/login.css';
+import './styles/main.css';
+import './styles/navbar_login.css';
+import './styles/register.css';
+import './styles/resetpass.css';
+import './styles/room.css';
+import './styles/team.css';
