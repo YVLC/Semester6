@@ -516,6 +516,9 @@ that.updateOptions = function(){
 			text: `${msg}`,
 			imageUrl: "../assets/winner.png"
 		  });
+		  setTimeout(() => {
+			window.location.href="leaderboard.html"
+		}, 2500);
 	}
 	/*console.log("Status : ");
 	  console.log("Check : " + check);
